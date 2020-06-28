@@ -2,10 +2,10 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
-	<classpathentry kind="lib" path="D:/jxbrowser-6.21-cross-desktop-win_mac_linux/lib/jxbrowser-6.21.jar"/>
-	<classpathentry kind="lib" path="D:/jxbrowser-6.21-cross-desktop-win_mac_linux/lib/jxbrowser-linux64-6.21.jar"/>
-	<classpathentry kind="lib" path="D:/jxbrowser-6.21-cross-desktop-win_mac_linux/lib/jxbrowser-mac-6.21.jar"/>
-	<classpathentry kind="lib" path="D:/jxbrowser-6.21-cross-desktop-win_mac_linux/lib/jxbrowser-win32-6.21.jar"/>
-	<classpathentry kind="lib" path="D:/jxbrowser-6.21-cross-desktop-win_mac_linux/lib/jxbrowser-win64-6.21.jar"/>
+	<classpathentry kind="lib" path="lib/jxbrowser-6.21.jar"/>
+	<classpathentry kind="lib" path="lib/jxbrowser-linux64-6.21.jar"/>
+	<classpathentry kind="lib" path="lib/jxbrowser-mac-6.21.jar"/>
+	<classpathentry kind="lib" path="lib/jxbrowser-win32-6.21.jar"/>
+	<classpathentry kind="lib" path="lib/jxbrowser-win64-6.21.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -46,7 +46,8 @@ public class test {
 		frame.setLocationByPlatform(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
-		browser.loadURL("file:///D:/test/index.html");
+		
+		browser.loadURL("file:///C:/dev/project/dmcheng/jxbrowser/resource/index.html");
 
 	}
 }
