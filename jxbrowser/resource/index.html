@@ -1,35 +1,51 @@
+<!DOCTYPE html>
 <html>
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title></title>
-    <link rel="stylesheet" href="./leaflet.css" />
-    <script src="./leaflet.js"></script>
-    <style>
-        html,
-        body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Leaflet - Adding/deleting as well as getting (all) markers</title>
+  <link rel="stylesheet" type="text/css" href="leaflet.css">
+  <script type="text/javascript" src="leaflet.js"></script>
+  <script type="text/javascript" src="jquery.min.js"></script>
 
-        /* #my-offline-leaf-map {
-            width: 100%;
-            height: 100%;
-        } */
-    </style>
+  <style id="xfmap-css" type="text/css">
+    html,
+    body,
+    #map {
+      width: 100%;
+      height: 96%;
+      margin: 0;
+      padding: 0;
+    }
+
+    .get-markers {
+      width: 100%;
+      margin: 10px 0;
+    }
+  </style>
+
 </head>
 
 <body>
-    <div id="mapid" style="width: 80%;height: 580px;"></div>
-    <script src="controlmap.js"></script>
-    <!-- <script>
-        var url = './roadmap/{z}/{x}/{y}.png';
-        var mymap = L.map('my-offline-leaf-map').setView([29.5, 110.5], 10);
-        L.tileLayer(url, { minZoom: 1, maxZoom: 9, }).addTo(mymap);
-    </script> -->
+  <div id="map" data-mode>
+    <input type="hidden" data-map-markers value name="map-geojson-data">
+  </div>
+  <div>
+    <input class="get-markers" type="button" value="Get all the Markers">
+  </div>
+
+  <script type="text/javascript" src="xfcontrol.js" />
+  <script>
+    if (window.parent && window.parent.parent) {
+      window.parent.parent.postMessage(["resultsFrame", {
+        height: document.body.getBoundingClientRect().height,
+        slug: "xfmap"
+      }], "*")
+    }
+    window.name = "xfmap"
+  </script>
+
+
 </body>
 
 </html>

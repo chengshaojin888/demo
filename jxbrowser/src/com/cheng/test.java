@@ -1,14 +1,18 @@
 package com.cheng;
 
-import com.teamdev.jxbrowser.chromium.Browser;
-import com.teamdev.jxbrowser.chromium.ba;
-import com.teamdev.jxbrowser.chromium.swing.BrowserView;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Frame;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.math.BigInteger;
+
+import javax.swing.JFrame;
+
+import com.teamdev.jxbrowser.chromium.Browser;
+import com.teamdev.jxbrowser.chromium.JSFunction;
+import com.teamdev.jxbrowser.chromium.JSValue;
+import com.teamdev.jxbrowser.chromium.ba;
+import com.teamdev.jxbrowser.chromium.swing.BrowserView;
 
 public class test {
 	static {
@@ -30,15 +34,14 @@ public class test {
 	}
 
 	public static void main(String[] args) {
-		// final String url = "";
-		final String title = "°Ù¶È";
+		
 		Browser browser = new Browser();
 		BrowserView view = new BrowserView(browser);
 
 		JFrame frame = new JFrame();
-		// ½ûÓÃclose¹¦ÄÜ
+		// ï¿½ï¿½ï¿½ï¿½closeï¿½ï¿½ï¿½ï¿½
 		// frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-		// ²»ÏÔÊ¾±êÌâÀ¸,×î´ó»¯,×îÐ¡»¯,ÍË³ö°´Å¥
+		// ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½,ï¿½ï¿½Ð¡ï¿½ï¿½,ï¿½Ë³ï¿½ï¿½ï¿½Å¥
 		// frame.setUndecorated(true);
 		frame.setSize(400, 600);
 		frame.add(view, BorderLayout.CENTER);
@@ -46,8 +49,8 @@ public class test {
 		frame.setLocationByPlatform(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
-		
+		frame.setTitle("Test");
 		browser.loadURL("file:///C:/dev/project/dmcheng/jxbrowser/resource/index.html");
-
+		
 	}
 }
