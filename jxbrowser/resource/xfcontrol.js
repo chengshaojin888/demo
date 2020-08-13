@@ -6,7 +6,8 @@ var osmUrl = './roadmap/{z}/{x}/{y}.png',
     });
 
 
-var map = L.map('map').setView([25.92, 79.84], 10).addLayer(osm);
+var map = L.map('map').setView([30.934970304852776, 112.1923], 10).addLayer(osm);
+
 
 map.on('click', onMapClick);
 
@@ -18,6 +19,7 @@ function onMapClick(e) {
         xfPolyline.remove(map);
     }
 
+
     var geojsonFeature = {
         "type": "Feature",
         "properties": {},
@@ -27,6 +29,7 @@ function onMapClick(e) {
         }
     }
 
+    console.log(e.latlng.lat + ":" + e.latlng.lng);
     var marker;
 
     L.geoJson(geojsonFeature, {
@@ -83,4 +86,3 @@ function getAllMarkers() {
 
 }
 
-$(".get-markers").on("click", getAllMarkers);
