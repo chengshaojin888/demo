@@ -3,6 +3,7 @@
 var flyPointArr = [[0, 31.017687129191504, 111.86279296875001, 0], [1, 30.793861662466583, 111.90124511718751, 0], [2, 30.744313885161855, 112.7636718750000, 0], [2, 31.744313885161855, 113.7636718750000, 0]];
 var markerArr = [];
 var latlngArr = [];
+var nextIndex  = flyPointArr[flyPointArr.length - 1][0] + 1;
 
 //Extend the marker to include customized props
 XFMarker = L.Marker.extend({
@@ -13,16 +14,16 @@ XFMarker = L.Marker.extend({
 });
 
 
-var osmUrl = './roadmap/{z}/{x}/{y}.png',
-    osmAttrib = '',
-    osm = L.tileLayer(osmUrl, {
+var xfUrl = './roadmap/{z}/{x}/{y}.png',
+    xfAttrib = '',
+    xfLayer = L.tileLayer(xfUrl, {
         maxZoom: 9,
-        attribution: osmAttrib
+        attribution: xfAttrib
     });
 
 
-var map = L.map('map').setView([31.017687129191504, 111.86279296875001], 10).addLayer(osm);
-//var map = L.map('map').setView(flyPointArr, 10).addLayer(osm);
+var map = L.map('map').setView([31.017687129191504, 111.86279296875001], 10).addLayer(xfLayer);
+
 initMarker();
 
 
@@ -71,7 +72,10 @@ function initMarker() {
     flyPointArr.forEach((flyPoint) => {
         var latlngObj = new L.LatLng(flyPoint[1], flyPoint[2]);
 
-        var marker = new XFMarker(latlngObj, { id: flyPoint[0], length: flyPoint[3], draggable: true }).addTo(map);
+        // var marker = new XFMarker(latlngObj, { id: flyPoint[0], length: flyPoint[3], draggable: true }).addTo(map);
+        var marker = new XFMarker(latlngObj, { id: flyPoint[0], height: flyPoint[3], draggable: true }).bindPopup("<input type='button' value='Delete Marker' class='marker-delete-button'/>");
+        marker.on("popupopen", onPopupOpen);
+        
         marker
             .on('dragstart', dragStartHandler)
             .on('drag', dragHandler)
@@ -83,6 +87,35 @@ function initMarker() {
 }
 
 console.table(this.latlngArr);
-var polyline = new L.Polyline(this.latlngArr).addTo(map);
+var polyline = new L.Polyline(this.latlngArr);
+var makerLayerGroup = L.layerGroup(this.markerArr);
+makerLayerGroup.addTo(map);
+var polylineGroup = new L.layerGroup([polyline]);
+polylineGroup.addTo(map);
 
+map.on('dblclick', function (e) {
+    //var marker = L.marker(e.latlng).addTo(map);
+    var marker = new XFMarker(e.latlng, { id: nextIndex, height: 0, draggable: true }).bindPopup("<input type='button' value='Delete Marker' class='marker-delete-button'/>");
+    markerArr.push(marker);
+    latlngArr.push(e.latlng);
+    marker.on("popupopen", onPopupOpen);
+        
+        marker
+            .on('dragstart', dragStartHandler)
+            .on('drag', dragHandler)
+            .on('dragend', dragEndHandler);
+
+    map.removeLayer(makerLayerGroup);
+    makerLayerGroup = L.layerGroup(markerArr);
+    makerLayerGroup.addTo(map);
+    map.removeLayer(polylineGroup);
+    polyline = new L.Polyline(latlngArr);
+    polylineGroup = new L.layerGroup([polyline]);
+    polylineGroup.addTo(map);
+    updateFlyPointArr(nextIndex, e.getLatLng().lat, e.getLatLng().lng);
+});
+
+function onPopupOpen() {
+
+}
 
