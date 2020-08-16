@@ -53,9 +53,6 @@ function dragEndHandler(e) {
 }
 
 function updateFlyPointArr(id, lat, lng) {
-    console.log(id);
-    console.log(lat);
-    console.log(lng);
     console.table(this.flyPointArr);
     flyPointArr.forEach((flyPoint) => {
         if (id == flyPoint[0]) {
@@ -94,7 +91,6 @@ var polylineGroup = new L.layerGroup([polyline]);
 polylineGroup.addTo(map);
 
 map.on('dblclick', function (e) {
-    //var marker = L.marker(e.latlng).addTo(map);
     var marker = new XFMarker(e.latlng, { id: nextIndex, height: 0, draggable: true }).bindPopup("<input type='button' value='Delete Marker' class='marker-delete-button'/>");
     markerArr.push(marker);
     latlngArr.push(e.latlng);
