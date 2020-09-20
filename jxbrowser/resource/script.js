@@ -4,6 +4,8 @@ var flyPointArr = [[0, 31.017687129191504, 111.86279296875001, 0], [1, 30.793861
 var markerArr = [];
 var latlngArr = [];
 var nextIndex  = flyPointArr[flyPointArr.length - 1][0] + 1;
+var selectPoint;
+
 
 //Extend the marker to include customized props
 XFMarker = L.Marker.extend({
@@ -23,6 +25,9 @@ var xfUrl = './roadmap/{z}/{x}/{y}.png',
 
 
 var map = L.map('map').setView([31.017687129191504, 111.86279296875001], 10).addLayer(xfLayer);
+
+var flyPolyline = L.polyline([]).addTo(map);
+
 
 initMarker();
 
@@ -54,18 +59,32 @@ function dragEndHandler(e) {
 
 function updateFlyPointArr(id, lat, lng) {
     console.table(this.flyPointArr);
-    flyPointArr.forEach((flyPoint) => {
-        if (id == flyPoint[0]) {
-            flyPoint[1] = lat;
-            flyPoint[2] = lng;
-        }
-
-    });
+    latlngArr = new Array();
+        flyPointArr.forEach((flyPoint) => {
+            if (id == flyPoint[0]) {
+                flyPoint[1] = lat;
+                flyPoint[2] = lng;
+            }
+            var latlngObj = new L.LatLng(flyPoint[1], flyPoint[2]);
+            latlngArr.push(latlngObj);            
+        });
+    
+    
     console.table(this.flyPointArr);
 }
 
+function addNewFlyPointToArr(id, lat, lng) {
+    console.table(this.flyPointArr);
+    flyPointArr.push([id, lat, lng]); 
+    var latlngObj = new L.LatLng(lat, lng);
+    latlngArr.push(latlngObj);
+
+    console.table(this.flyPointArr);
+}
 
 function initMarker() {
+    this.latlngArr = new Array();
+    this.markerArr = new Array();
     flyPointArr.forEach((flyPoint) => {
         var latlngObj = new L.LatLng(flyPoint[1], flyPoint[2]);
 
@@ -93,14 +112,14 @@ polylineGroup.addTo(map);
 map.on('dblclick', function (e) {
     var marker = new XFMarker(e.latlng, { id: nextIndex, height: 0, draggable: true }).bindPopup("<input type='button' value='Delete Marker' class='marker-delete-button'/>");
     markerArr.push(marker);
-    latlngArr.push(e.latlng);
+    console.log("==============")
     marker.on("popupopen", onPopupOpen);
         
         marker
             .on('dragstart', dragStartHandler)
             .on('drag', dragHandler)
             .on('dragend', dragEndHandler);
-
+    addNewFlyPointToArr(nextIndex, e.latlng.lat, e.latlng.lng);
     map.removeLayer(makerLayerGroup);
     makerLayerGroup = L.layerGroup(markerArr);
     makerLayerGroup.addTo(map);
@@ -108,10 +127,36 @@ map.on('dblclick', function (e) {
     polyline = new L.Polyline(latlngArr);
     polylineGroup = new L.layerGroup([polyline]);
     polylineGroup.addTo(map);
-    updateFlyPointArr(nextIndex, e.getLatLng().lat, e.getLatLng().lng);
+    nextIndex++;
+    
 });
 
-function onPopupOpen() {
-
+function drawFlyPolyline(lat, lng){
+    flyPolyline.addLatLng(L.latLng(lat, lng));
 }
 
+
+function onPopupOpen(e) {
+    selectMarker = [e.target.options.id, e.target.getLatLng().lat, e.target.getLatLng().lng];
+    $(".marker-delete-button:visible").click(function (e) {
+        console.log(e.target);
+        // console.table(flyPointArr);
+        console.log(selectMarker);
+        flyPointArr = flyPointArr.filter(function(item){
+            return item[0] != selectMarker[0];
+        });
+
+        initMarker();
+
+        map.removeLayer(makerLayerGroup);
+        makerLayerGroup = L.layerGroup(markerArr);
+        makerLayerGroup.addTo(map);
+        map.removeLayer(polylineGroup);
+        polyline = new L.Polyline(latlngArr);
+        polylineGroup = new L.layerGroup([polyline]);
+        polylineGroup.addTo(map);
+        nextIndex  = flyPointArr[flyPointArr.length - 1][0] + 1;
+
+        console.table(flyPointArr);
+    });
+}
